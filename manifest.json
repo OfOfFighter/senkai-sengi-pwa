@@ -1,0 +1,21 @@
+{
+  "short_name": "SenkaiSengi",
+  "name": "Senkai Sengi Digital",
+  "description": "A digital implementation of the trading card game 'Senkai Sengi'. This application allows players to build decks and engage in two-player battles, following the official rules. It features the three pre-built starter decks for immediate play.",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1e293b",
+  "background_color": "#1e293b"
+}

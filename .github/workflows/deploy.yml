@@ -1,0 +1,59 @@
+# .github/workflows/deploy.yml
+
+name: Deploy to GitHub Pages
+
+on:
+  # mainブランチにpushされたときにこの処理を実行します
+  push:
+    branches: [ "main" ]
+  # Actionsタブから手動で実行することも可能にします
+  workflow_dispatch:
+
+# GITHUB_TOKENの権限を設定します
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 複数のジョブが同時に実行されないようにします
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. リポジトリのコードをチェックアウトします
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Node.js環境をセットアップします
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # 最新のLTS版を推奨
+          cache: 'npm'
+
+      # 3. 必要なライブラリをインストールします
+      - name: Install dependencies
+        run: npm install
+
+      # 4. アプリケーションをビルドします (npm run build を実行)
+      - name: Build
+        run: npm run build
+
+      # 5. ビルド成果物 (distフォルダ) をアップロードできるように設定します
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 6. distフォルダをアーティファクトとしてアップロードします
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      # 7. GitHub Pagesにデプロイします
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
